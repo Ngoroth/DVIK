@@ -1,4 +1,4 @@
-﻿namespace DVIK.Core
+﻿namespace Dvik.Core
 {
     public class Course
     {

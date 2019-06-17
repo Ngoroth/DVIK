@@ -1,10 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using DVIK.Core;
+using Dvik.Core;
+using Dvik.Core.Abstractions;
 
-namespace DVIK.Data
+namespace Dvik.Data
 {
     public class InMemoryCourseData : ICourseData
     {

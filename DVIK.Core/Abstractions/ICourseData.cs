@@ -1,9 +1,6 @@
-﻿using DVIK.Core;
-using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using System.Collections.Generic;
 
-namespace DVIK.Data
+namespace Dvik.Core.Abstractions
 {
     public interface ICourseData
     {

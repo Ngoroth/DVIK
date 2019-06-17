@@ -3,11 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.29001.49
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DVIK", "DVIK\DVIK.csproj", "{91A81B74-B4C4-47F5-BA77-E209889B11D7}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Dvik", "DVIK\Dvik.csproj", "{91A81B74-B4C4-47F5-BA77-E209889B11D7}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DVIK.Core", "DVIK.Core\DVIK.Core.csproj", "{384365E4-D1B8-4E98-A1B4-4FEE49297EB8}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Dvik.Core", "DVIK.Core\Dvik.Core.csproj", "{384365E4-D1B8-4E98-A1B4-4FEE49297EB8}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DVIK.Data", "DVIK.Data\DVIK.Data.csproj", "{9827C1B2-EA1B-4F0A-82C9-C68F57471B4B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Dvik.Data", "DVIK.Data\Dvik.Data.csproj", "{9827C1B2-EA1B-4F0A-82C9-C68F57471B4B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
