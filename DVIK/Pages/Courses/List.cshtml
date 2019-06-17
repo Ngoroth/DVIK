@@ -1,0 +1,40 @@
+﻿@page
+@model DVIK.Pages.Courses.ListModel
+@{
+    ViewData["Title"] = "Курсы";
+}
+
+<h1>Курсы</h1>
+
+<form method="get">
+    <div class="form-group">
+        <div class="input-group">
+            <input type="search" class="form-control" asp-for="SearchTerm"/>
+            <span class="input-group-append">
+                <button class="btn btn-outline-secondary">
+                    <i class="fas fa-search"></i>
+                </button>
+            </span>
+        </div>
+    </div>
+</form>
+
+<table class="table">
+    @foreach(var course in Model.Courses)
+    {
+        <tr>
+            <td class="align-middle">@course.Name</td>
+            <td class="align-middle">@course.Description</td>
+            <td class="align-middle">@course.Price</td>
+            <td>
+                <a class="btn btn-lg" asp-page="./Detail" asp-route-courseId="@course.Id">
+                    <i class="fas fa-search-plus"></i>
+                </a>
+                <a class="btn btn-lg" asp-page="./Edit" asp-route-courseId="@course.Id">
+                    <i class="fas fa-edit"></i>
+                </a>
+            </td>
+        </tr>
+    }
+</table>
+

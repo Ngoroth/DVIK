@@ -1,0 +1,23 @@
+﻿@page "{courseId:int}"
+@model DVIK.Pages.Courses.EditModel
+@{
+    ViewData["Title"] = "Edit";
+}
+
+    <form method="post">
+
+        <input type="hidden" asp-for="Course.Id"/>
+        <div class="form-group">
+            <label asp-for="Course.Name"></label>
+            <input asp-for="Course.Name" class="form-control" />
+
+            <label asp-for="Course.Description"></label>
+            <input asp-for="Course.Description" class="form-control" />
+
+            <label asp-for="Course.Price"></label>
+            <input asp-for="Course.Price" class="form-control" />
+        </div>
+
+        <button type ="submit" class="btn btn-primary">Сохранить</button>
+    </form>
+

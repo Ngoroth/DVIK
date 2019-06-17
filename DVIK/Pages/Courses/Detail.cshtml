@@ -1,0 +1,23 @@
+﻿@page "{courseId:int}"
+
+@model DVIK.Pages.Courses.DetailModel
+@{
+    ViewData["Title"] = "Detail";
+}
+
+<h2>@Model.Course.Name</h2>
+
+<div>
+    Id: @Model.Course.Id
+</div>
+
+<div>
+    Description: @Model.Course.Description
+</div>
+
+<div>
+    Price: @Model.Course.Price
+</div>
+
+<a asp-page="./List" class="btn btn-secondary">Все курсы</a>
+
