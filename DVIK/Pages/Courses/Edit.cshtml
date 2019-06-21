@@ -1,4 +1,4 @@
-﻿@page "{courseId:int}"
+﻿@page "{courseId:int?}"
 @model Dvik.Pages.Courses.EditModel
 @{
     ViewData["Title"] = "Edit";
@@ -6,18 +6,22 @@
 
     <form method="post">
 
-        <input type="hidden" asp-for="Course.Id"/>
+        <input type="hidden" asp-for="Course.Id" />
         <div class="form-group">
             <label asp-for="Course.Name"></label>
             <input asp-for="Course.Name" class="form-control" />
-
+            <span class="text-danger" asp-validation-for="Course.Name"></span>
+        </div>
+        <div class="form-group">
             <label asp-for="Course.Description"></label>
             <input asp-for="Course.Description" class="form-control" />
-
+            <span class="text-danger" asp-validation-for="Course.Description"></span>
+        </div>
+        <div class="form-group">
             <label asp-for="Course.Price"></label>
             <input asp-for="Course.Price" class="form-control" />
         </div>
 
-        <button type ="submit" class="btn btn-primary">Сохранить</button>
+        <button type="submit" class="btn btn-primary">Сохранить</button>
     </form>
 

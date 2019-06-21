@@ -26,7 +26,7 @@ namespace Dvik
             {
                 options.UseSqlServer(this.Configuration.GetConnectionString("DvikDb"));
             });
-            services.AddSingleton<ICourseData, InMemoryCourseData>();
+            services.AddScoped<ICourseData, SqlCourseData>();
 
             services.Configure<CookiePolicyOptions>(options =>
             {

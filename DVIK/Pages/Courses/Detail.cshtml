@@ -19,5 +19,10 @@
     Price: @Model.Course.Price
 </div>
 
+@if(this.Model.Message != null)
+{
+    <div class="alert alert-info">@this.Model.Message</div>
+}
+
 <a asp-page="./List" class="btn btn-secondary">Все курсы</a>
 

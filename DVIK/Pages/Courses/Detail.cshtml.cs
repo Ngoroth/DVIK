@@ -9,6 +9,9 @@ namespace Dvik.Pages.Courses
     {
         private readonly ICourseData courseData;
         public Course Course { get; set; }
+        
+        [TempData]
+        public string Message { get; set; }
 
         public DetailModel(ICourseData courseData)
         {
