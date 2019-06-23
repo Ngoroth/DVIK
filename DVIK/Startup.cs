@@ -1,3 +1,4 @@
+using Dvik.Core;
 using Dvik.Core.Abstractions;
 using Dvik.Data;
 using Microsoft.AspNetCore.Builder;
@@ -14,7 +15,7 @@ namespace Dvik
     {
         public Startup(IConfiguration configuration)
         {
-            Configuration = configuration;
+            this.Configuration = configuration;
         }
 
         public IConfiguration Configuration { get; }
@@ -22,11 +23,9 @@ namespace Dvik
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddDbContextPool<DvikDbContext>(options =>
-            {
-                options.UseSqlServer(this.Configuration.GetConnectionString("DvikDb"));
-            });
-            services.AddScoped<ICourseData, SqlCourseData>();
+            services.AddDbContextPool<DvikDbContext>(options => options.UseSqlServer(this.Configuration.GetConnectionString("DvikDb")));
+            services.AddScoped<IData<Course>, SqlData<Course>>();
+            services.AddScoped<IData<Trainer>, SqlData<Trainer>>();
 
             services.Configure<CookiePolicyOptions>(options =>
             {

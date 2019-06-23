@@ -1,22 +1,21 @@
-﻿using Dvik.Core;
-using Dvik.Core.Abstractions;
+﻿using Dvik.Core.Abstractions;
+using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using System.Linq;
-using Microsoft.EntityFrameworkCore;
 using System.Threading.Tasks;
 
 namespace Dvik.Data
 {
-    public class SqlCourseData : IData<Course>
+    public class SqlData<T> : IData<T>
+        where T : class, IHaveName
     {
         private readonly DvikDbContext dvikDbContext;
 
-        public SqlCourseData(DvikDbContext dvikDbContext)
+        public SqlData(DvikDbContext dvikDbContext)
         {
             this.dvikDbContext = dvikDbContext;
         }
-
-        public async Task<Course> AddAsync(Course newCourse)
+        public async Task<T> AddAsync(T newCourse)
         {
             await this.dvikDbContext.AddAsync(newCourse);
             return newCourse;
@@ -27,31 +26,31 @@ namespace Dvik.Data
             return await this.dvikDbContext.SaveChangesAsync();
         }
 
-        public async Task<Course> DeleteAsync(int id)
+        public async Task<T> DeleteAsync(int id)
         {
-            var course = await this.SearchByIdAsync(id);
+            var item = await this.SearchByIdAsync(id);
 
-            if (course != null)
+            if (item != null)
             {
-                this.dvikDbContext.Courses.Remove(course);
+                this.dvikDbContext.Remove(item);
             }
-            return course;
+            return item;
         }
 
-        public async Task<Course> SearchByIdAsync(int courseId)
+        public async Task<T> SearchByIdAsync(int courseId)
         {
-            return await this.dvikDbContext.Courses.FindAsync(courseId);
+            return await this.dvikDbContext.FindAsync<T>(courseId);
         }
 
-        public async Task<IEnumerable<Course>> SearchByNameAsync(string name)
+        public async Task<IEnumerable<T>> SearchByNameAsync(string name)
         {
-            var query = this.dvikDbContext.Courses
+            var query = this.dvikDbContext.Set<T>()
                 .Where(c => c.Name.StartsWith(name) || string.IsNullOrEmpty(name))
                 .OrderBy(c => c.Name);
             return await query.ToArrayAsync();
         }
 
-        public Course Update(Course updatedCourse)
+        public T Update(T updatedCourse)
         {
             var entity = this.dvikDbContext.Attach(updatedCourse);
             entity.State = EntityState.Modified;

@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Threading.Tasks;
 using Dvik.Core;
 using Dvik.Core.Abstractions;
 using Microsoft.AspNetCore.Mvc;
@@ -8,19 +9,19 @@ namespace Dvik.Pages.Courses
 {
     public class ListModel : PageModel
     {
-        private readonly ICourseData courseData;
+        private readonly IData<Course> courseData;
 
         public IEnumerable<Course> Courses { get; set; }
 
         [BindProperty(SupportsGet = true)]
         public string SearchTerm { get; set; }
-        public ListModel(ICourseData courseData)
+        public ListModel(IData<Course> courseData)
         {
             this.courseData = courseData;
         }
-        public void OnGet()
+        public async Task OnGet()
         {
-            this.Courses = this.courseData.GetByName(this.SearchTerm);
+            this.Courses = await this.courseData.SearchByNameAsync(this.SearchTerm);
         }
     }
 }

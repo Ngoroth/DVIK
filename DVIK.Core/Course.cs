@@ -1,16 +1,23 @@
-﻿using DA = System.ComponentModel.DataAnnotations;
+﻿using Dvik.Core.Abstractions;
+using System.ComponentModel.DataAnnotations;
 
 namespace Dvik.Core
 {
-    public class Course
+    public class Course : IHaveName
     {
         public int Id { get; set; }
-        [DA.Required(ErrorMessage = "Необходимо ввести название курса!")]
+
+        [Required(ErrorMessage = "Необходимо ввести название курса!")]
+        [Display(Name = "Имя")]
         public string Name { get; set; }
-        [DA.Required(ErrorMessage = "Необходимо ввести описание курса!")]
+
+        [Required(ErrorMessage = "Необходимо ввести описание курса!")]
+        [Display(Name = "Описание")]
         public string Description { get; set; }
+
         public Trainer Trainer { get; set; }
 
+        [Display(Name = "Цена")]
         public decimal Price { get; set; }
     }
 }

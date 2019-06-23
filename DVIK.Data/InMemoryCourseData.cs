@@ -18,14 +18,14 @@ namespace Dvik.Data
                 new Course { Name = "Болтай без умолку", Description = "Будешь трындеть как радио и делать это круто!", Id = 2, Price = 2000}
             };
         }
-        public IEnumerable<Course> GetByName(string name = null)
+        public IEnumerable<Course> SearchByName(string name = null)
         {
             return this.Courses
                 .Where(c => string.IsNullOrEmpty(name) || c.Name.StartsWith(name))
                 .OrderBy(c => c.Name);
         }
 
-        public Course GetById(int courseId)
+        public Course SearchById(int courseId)
         {
             return this.Courses.SingleOrDefault(c => c.Id == courseId);
         }

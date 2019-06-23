@@ -2,56 +2,43 @@
 using Dvik.Core.Abstractions;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using System.Threading.Tasks;
 
 namespace Dvik.Pages.Courses
 {
     public class EditModel : PageModel
     {
-        public EditModel(ICourseData courseData)
+        public EditModel(IData<Course> courseData)
         {
             this.courseData = courseData;
         }
 
-        private readonly ICourseData courseData;
+        private readonly IData<Course> courseData;
 
         [BindProperty]
         public Course Course { get; set; }
-        public IActionResult OnGet(int? courseId)
+        public async Task<IActionResult> OnGet(int? courseId)
         {
-            if(courseId.HasValue)
-            {
-                this.Course = this.courseData.GetById(courseId.Value);
-            }
-            else
-            {
-                this.Course = new Course();
-            }
-            
-            if(null == this.Course)
-            {
-                return this.RedirectToPage("./List");
-            }
-            return this.Page();
+            this.Course = courseId.HasValue ? await this.courseData.SearchByIdAsync(courseId.Value) : new Course();
+
+            return null == this.Course 
+                ? this.RedirectToPage("./List") 
+                : (IActionResult)this.Page();
         }
 
-        public IActionResult OnPost()
+        public async Task<IActionResult> OnPost()
         {
-            if(!ModelState.IsValid)
+            if(!this.ModelState.IsValid)
             {
-                return Page();
+                return this.Page();
             }
 
-            if(this.Course.Id > 0)
-            {
-                this.Course = this.courseData.Update(this.Course);
-            }
-            else
-            {
-                this.Course = this.courseData.Add(this.Course);
-            }
+            this.Course = this.Course.Id > 0 
+                ? this.courseData.Update(this.Course) 
+                : await this.courseData.AddAsync(this.Course);
 
-            this.courseData.Commit();
-            TempData["Message"] = "Курс сохранен.";
+            await this.courseData.CommitAsync();
+            this.TempData["Message"] = "Курс сохранен.";
             return this.RedirectToPage("./Detail", new { courseId = this.Course.Id });
         }
     }

@@ -7,16 +7,13 @@
 
 <h2>@Model.Course.Name</h2>
 
-<div>
-    Id: @Model.Course.Id
+
+<div style="white-space:pre-line">
+    @Model.Course.Description
 </div>
 
 <div>
-    Description: @Model.Course.Description
-</div>
-
-<div>
-    Price: @Model.Course.Price
+    Стоимость: @Model.Course.Price
 </div>
 
 @if(this.Model.Message != null)

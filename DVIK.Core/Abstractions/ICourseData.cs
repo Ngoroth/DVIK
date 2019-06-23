@@ -4,8 +4,8 @@ namespace Dvik.Core.Abstractions
 {
     public interface ICourseData
     {
-        IEnumerable<Course> GetByName(string name);
-        Course GetById(int courseId);
+        IEnumerable<Course> SearchByName(string name);
+        Course SearchById(int courseId);
         Course Update(Course updatedCourse);
         Course Add(Course newCourse);
         Course Delete(int id);
