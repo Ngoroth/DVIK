@@ -17,7 +17,7 @@ namespace Dvik.Pages.Courses
 
         [BindProperty]
         public Course Course { get; set; }
-        public async Task<IActionResult> OnGet(int? courseId)
+        public async Task<IActionResult> OnGetAsync(int? courseId)
         {
             this.Course = courseId.HasValue ? await this.courseData.SearchByIdAsync(courseId.Value) : new Course();
 
@@ -26,7 +26,7 @@ namespace Dvik.Pages.Courses
                 : (IActionResult)this.Page();
         }
 
-        public async Task<IActionResult> OnPost()
+        public async Task<IActionResult> OnPostAsync()
         {
             if(!this.ModelState.IsValid)
             {
@@ -39,7 +39,7 @@ namespace Dvik.Pages.Courses
 
             await this.courseData.CommitAsync();
             this.TempData["Message"] = "Курс сохранен.";
-            return this.RedirectToPage("./Detail", new { courseId = this.Course.Id });
+            return this.RedirectToPage("./Details", new { courseId = this.Course.Id });
         }
     }
 }

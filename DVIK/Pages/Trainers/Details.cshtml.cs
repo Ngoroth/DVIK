@@ -1,32 +1,31 @@
 ﻿using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using Microsoft.EntityFrameworkCore;
 using Dvik.Core;
+using Dvik.Core.Abstractions;
 
 namespace Dvik.Pages.Trainers
 {
     public class DetailsModel : PageModel
     {
-        private readonly Data.DvikDbContext _context;
+        private readonly IData<Trainer> trainerData;
 
-        public DetailsModel(Data.DvikDbContext context)
+        public DetailsModel(IData<Trainer> trainerData)
         {
-            this._context = context;
+            this.trainerData = trainerData;
         }
 
         public Trainer Trainer { get; set; }
 
-        public async Task<IActionResult> OnGetAsync(int? id)
+        [TempData]
+        public string Message { get; set; }
+
+        public async Task<IActionResult> OnGetAsync(int trainerId)
         {
-            if (id == null)
-            {
-                return this.NotFound();
-            }
-
-            this.Trainer = await this._context.Trainers.FirstOrDefaultAsync(m => m.Id == id);
-
-            return this.Trainer == null ? this.NotFound() : (IActionResult)this.Page();
+            this.Trainer = await this.trainerData.SearchByIdAsync(trainerId);
+            return null == this.Trainer
+                ? this.RedirectToPage("./NotFound")
+                : (IActionResult)this.Page();
         }
     }
 }

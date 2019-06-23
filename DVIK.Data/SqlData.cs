@@ -9,16 +9,16 @@ namespace Dvik.Data
     public class SqlData<T> : IData<T>
         where T : class, IHaveName
     {
-        private readonly DvikDbContext dvikDbContext;
+        protected readonly DvikDbContext dvikDbContext;
 
         public SqlData(DvikDbContext dvikDbContext)
         {
             this.dvikDbContext = dvikDbContext;
         }
-        public async Task<T> AddAsync(T newCourse)
+        public async Task<T> AddAsync(T newItem)
         {
-            await this.dvikDbContext.AddAsync(newCourse);
-            return newCourse;
+            await this.dvikDbContext.AddAsync(newItem);
+            return newItem;
         }
 
         public async Task<int> CommitAsync()
@@ -37,9 +37,9 @@ namespace Dvik.Data
             return item;
         }
 
-        public async Task<T> SearchByIdAsync(int courseId)
+        public virtual async Task<T> SearchByIdAsync(int itemId)
         {
-            return await this.dvikDbContext.FindAsync<T>(courseId);
+            return await this.dvikDbContext.FindAsync<T>(itemId);
         }
 
         public async Task<IEnumerable<T>> SearchByNameAsync(string name)
@@ -50,11 +50,11 @@ namespace Dvik.Data
             return await query.ToArrayAsync();
         }
 
-        public T Update(T updatedCourse)
+        public T Update(T updatedItem)
         {
-            var entity = this.dvikDbContext.Attach(updatedCourse);
+            var entity = this.dvikDbContext.Attach(updatedItem);
             entity.State = EntityState.Modified;
-            return updatedCourse;
+            return updatedItem;
         }
     }
 }

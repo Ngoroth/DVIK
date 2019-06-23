@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Dvik.Pages.Courses
 {
-    public class DetailModel : PageModel
+    public class DetailsModel : PageModel
     {
         private readonly IData<Course> courseData;
         public Course Course { get; set; }
@@ -15,12 +15,12 @@ namespace Dvik.Pages.Courses
         [TempData]
         public string Message { get; set; }
 
-        public DetailModel(IData<Course> courseData)
+        public DetailsModel(IData<Course> courseData)
         {
             this.courseData = courseData;
         }
 
-        public async Task<IActionResult> OnGet(int courseId)
+        public async Task<IActionResult> OnGetAsync(int courseId)
         {
             this.Course = await this.courseData.SearchByIdAsync(courseId);
             

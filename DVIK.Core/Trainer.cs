@@ -9,6 +9,6 @@ namespace Dvik.Core
         [Required]
         public string Name { get; set; }
         public string Bio { get; set; }
-        public byte[] Photo { get; set; }
+        public Photo Photo { get; set; }
     }
 }

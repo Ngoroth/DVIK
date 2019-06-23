@@ -1,8 +1,8 @@
 ﻿@page "{courseId:int}"
 
-@model Dvik.Pages.Courses.DetailModel
+@model Dvik.Pages.Courses.DetailsModel
 @{
-    ViewData["Title"] = "Detail";
+    ViewData["Title"] = "Details";
 }
 
 <h2>@Model.Course.Name</h2>
@@ -20,6 +20,8 @@
 {
     <div class="alert alert-info">@this.Model.Message</div>
 }
+<div>
+    <a asp-page="./List" class="btn btn-secondary">Все курсы</a>
+</div>
 
-<a asp-page="./List" class="btn btn-secondary">Все курсы</a>
 

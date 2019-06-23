@@ -1,15 +1,16 @@
 ﻿@page
-@model Dvik.Pages.Courses.ListModel
+@model Dvik.Pages.Trainers.ListModel
+
 @{
-    ViewData["Title"] = "Курсы";
+    ViewData["Title"] = "List";
 }
 
-<h1>Курсы</h1>
+<h1>Тренеры</h1>
 
 <form method="get">
     <div class="form-group">
         <div class="input-group">
-            <input type="search" class="form-control" asp-for="SearchTerm"/>
+            <input type="search" class="form-control" asp-for="SearchTerm" />
             <span class="input-group-append">
                 <button class="btn btn-outline-secondary">
                     <i class="fas fa-search"></i>
@@ -19,11 +20,10 @@
     </div>
 </form>
 
-@foreach (var course in this.Model.Courses)
+@foreach (var course in this.Model.Trainers)
 {
     <br />
     <partial name="_Card" model="course" />
 }
 <br />
-<a asp-page="./Edit" class="btn btn-primary" >Добавить курс</a>
-
+<a asp-page="./Edit" class="btn btn-primary">Добавить тренера</a>

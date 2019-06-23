@@ -16,7 +16,7 @@ namespace Dvik.Pages.Courses
         {
             this.courseData = courseData;
         }
-        public async Task<IActionResult> OnGet(int courseId)
+        public async Task<IActionResult> OnGetAsync(int courseId)
         {
             this.Course = await this.courseData.SearchByIdAsync(courseId);
             return this.Course == null 
@@ -24,7 +24,7 @@ namespace Dvik.Pages.Courses
                 : (IActionResult)this.Page();
         }
 
-        public async Task<IActionResult> OnPost(int courseId)
+        public async Task<IActionResult> OnPostAsync(int courseId)
         {
             var course = await this.courseData.DeleteAsync(courseId);
 

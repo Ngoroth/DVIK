@@ -1,34 +1,37 @@
-﻿using System.Linq;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using Microsoft.EntityFrameworkCore;
 using Dvik.Core;
+using Dvik.Core.Abstractions;
+using Microsoft.AspNetCore.Http;
+using System.IO;
 
 namespace Dvik.Pages.Trainers
 {
     public class EditModel : PageModel
     {
-        private readonly Data.DvikDbContext _context;
+        private readonly IData<Trainer> trainerData;
 
-        public EditModel(Data.DvikDbContext context)
+        public EditModel(IData<Trainer> trainerData)
         {
-            this._context = context;
+            this.trainerData = trainerData;
         }
 
         [BindProperty]
         public Trainer Trainer { get; set; }
 
-        public async Task<IActionResult> OnGetAsync(int? id)
+        [BindProperty]
+        public IFormFile Photo { get; set; }
+
+        public async Task<IActionResult> OnGetAsync(int? trainerId)
         {
-            if (id == null)
-            {
-                return this.NotFound();
-            }
+            this.Trainer = trainerId.HasValue 
+                ? await this.trainerData.SearchByIdAsync(trainerId.Value) 
+                : new Trainer();
 
-            this.Trainer = await this._context.Trainers.FirstOrDefaultAsync(m => m.Id == id);
-
-            return this.Trainer == null ? this.NotFound() : (IActionResult)this.Page();
+            return null == this.Trainer
+                ? this.RedirectToPage("./List")
+                : (IActionResult)this.Page();
         }
 
         public async Task<IActionResult> OnPostAsync()
@@ -38,30 +41,29 @@ namespace Dvik.Pages.Trainers
                 return this.Page();
             }
 
-            this._context.Attach(this.Trainer).State = EntityState.Modified;
+            this.addPhoto();
 
-            try
-            {
-                await this._context.SaveChangesAsync();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!this.TrainerExists(this.Trainer.Id))
-                {
-                    return this.NotFound();
-                }
-                else
-                {
-                    throw;
-                }
-            }
+            this.Trainer = this.Trainer.Id > 0
+                ? this.trainerData.Update(this.Trainer)
+                : await this.trainerData.AddAsync(this.Trainer);
 
-            return this.RedirectToPage("./Index");
+            await this.trainerData.CommitAsync();
+            this.TempData["Message"] = "Тренер сохранен.";
+            return this.RedirectToPage("./Details", new { trainerId = this.Trainer.Id });
         }
 
-        private bool TrainerExists(int id)
+        private void addPhoto()
         {
-            return this._context.Trainers.Any(e => e.Id == id);
+            if (this.Photo == null)
+            {
+                return;
+            }
+
+            this.Trainer.Photo = new Photo();
+            using (var binaryReader = new BinaryReader(this.Photo.OpenReadStream()))
+            {
+                this.Trainer.Photo.Data = binaryReader.ReadBytes((int)this.Photo.Length);
+            }
         }
     }
 }

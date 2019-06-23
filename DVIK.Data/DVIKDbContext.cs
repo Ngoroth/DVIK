@@ -8,5 +8,6 @@ namespace Dvik.Data
         public DvikDbContext(DbContextOptions<DvikDbContext> options) : base(options) { }
         public DbSet<Course> Courses { get; set; }
         public DbSet<Trainer> Trainers { get; set; }
+        public DbSet<Photo> Photos { get; set; }
     }
 }

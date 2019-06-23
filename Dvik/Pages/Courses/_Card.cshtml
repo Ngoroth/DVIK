@@ -6,10 +6,10 @@
         <h3>@this.Model.Name</h3>
     </div>
     <div class="card-body">
-        <p class="card-text">@this.Model.Description</p>
+            <p class="card-text text-truncate" style="white-space:pre-line; max-height: 150px">@this.Model.Description</p>
     </div>
     <div class="card-footer">
-        <a class="btn btn-lg" asp-page="./Detail" asp-route-courseId="@this.Model.Id">
+        <a class="btn btn-lg" asp-page="./Details" asp-route-courseId="@this.Model.Id">
             <i class="fas fa-search-plus"></i>
         </a>
         <a class="btn btn-lg" asp-page="./Edit" asp-route-courseId="@this.Model.Id">

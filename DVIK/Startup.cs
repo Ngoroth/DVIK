@@ -25,7 +25,7 @@ namespace Dvik
         {
             services.AddDbContextPool<DvikDbContext>(options => options.UseSqlServer(this.Configuration.GetConnectionString("DvikDb")));
             services.AddScoped<IData<Course>, SqlData<Course>>();
-            services.AddScoped<IData<Trainer>, SqlData<Trainer>>();
+            services.AddScoped<IData<Trainer>, SqlTrainerData>();
 
             services.Configure<CookiePolicyOptions>(options =>
             {
