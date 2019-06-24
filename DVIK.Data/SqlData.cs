@@ -42,7 +42,7 @@ namespace Dvik.Data
             return await this.dvikDbContext.FindAsync<T>(itemId);
         }
 
-        public async Task<IEnumerable<T>> SearchByNameAsync(string name)
+        public virtual async Task<IEnumerable<T>> SearchByNameAsync(string name)
         {
             var query = this.dvikDbContext.Set<T>()
                 .Where(c => c.Name.StartsWith(name) || string.IsNullOrEmpty(name))

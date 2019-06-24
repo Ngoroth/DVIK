@@ -19,11 +19,12 @@
         </div>
     </div>
 </form>
-
-@foreach (var course in this.Model.Trainers)
-{
-    <br />
-    <partial name="_Card" model="course" />
-}
+<div class="card-columns">
+    @foreach (var course in this.Model.Trainers)
+    {
+        <br />
+        <partial name="_Card" model="course" />
+    }
+</div>
 <br />
 <a asp-page="./Edit" class="btn btn-primary">Добавить тренера</a>

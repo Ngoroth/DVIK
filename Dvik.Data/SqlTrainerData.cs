@@ -20,5 +20,12 @@ namespace Dvik.Data
                 .Include(t => t.Photo)
                 .FirstOrDefaultAsync(t => t.Id == trainerId);
         }
+        public override async Task<IEnumerable<Trainer>> SearchByNameAsync(string name)
+        {
+            var query = this.dvikDbContext.Trainers.Include(t => t.Photo)
+                .Where(c => c.Name.StartsWith(name) || string.IsNullOrEmpty(name))
+                .OrderBy(c => c.Name);
+            return await query.ToArrayAsync();
+        }
     }
 }

@@ -18,12 +18,12 @@
         </div>
     </div>
 </form>
-
-@foreach (var course in this.Model.Courses)
-{
-    <br />
-    <partial name="_Card" model="course" />
-}
-<br />
-<a asp-page="./Edit" class="btn btn-primary" >Добавить курс</a>
+<div class="card-columns">
+    @foreach (var course in this.Model.Courses)
+    {
+        <partial name="_Card" model="course" />
+    }
+ </div>
+ <br />
+ <a asp-page="./Edit" class="btn btn-primary">Добавить курс</a>
 
