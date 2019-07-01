@@ -1,3 +1,4 @@
+using Dvik.Areas.Identity;
 using Dvik.Core;
 using Dvik.Core.Abstractions;
 using Dvik.Data;
@@ -8,6 +9,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using System;
 
 namespace Dvik
 {
@@ -23,7 +25,7 @@ namespace Dvik
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddDbContextPool<DvikDbContext>(options => options.UseSqlServer(this.Configuration.GetConnectionString("DvikDb")));
+            services.AddDbContext<DvikDbContext>(options => options.UseSqlServer(this.Configuration.GetConnectionString("DvikDb")));
             services.AddScoped<IData<Course>, SqlData<Course>>();
             services.AddScoped<IData<Trainer>, SqlTrainerData>();
 
@@ -34,12 +36,17 @@ namespace Dvik
                 options.MinimumSameSitePolicy = SameSiteMode.None;
             });
 
+            //services.AddIdentity<IdentityUser, IdentityRole>()
+            //    .AddRoles<IdentityRole>()
+            //    .AddDefaultUI(UIFramework.Bootstrap4)
+            //    .AddEntityFrameworkStores<DvikDbContext>();
+
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
+        public void Configure(IApplicationBuilder app, IHostingEnvironment env, IServiceProvider serviceProvider)
         {
             if (env.IsDevelopment())
             {
@@ -55,8 +62,11 @@ namespace Dvik
             app.UseHttpsRedirection();
             app.UseStaticFiles();
             app.UseCookiePolicy();
-
+            app.UseStaticFiles();
+            app.UseAuthentication();
+            SeedData.SeedUsersAndRole(serviceProvider);
             app.UseMvc();
+            
         }
     }
 }

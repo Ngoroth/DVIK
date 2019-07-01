@@ -12,11 +12,15 @@
         <a class="btn btn-lg" asp-page="./Details" asp-route-courseId="@this.Model.Id">
             <i class="fas fa-search-plus"></i>
         </a>
-        <a class="btn btn-lg" asp-page="./Edit" asp-route-courseId="@this.Model.Id">
-            <i class="fas fa-edit"></i>
-        </a>
-        <a class="btn btn-lg" asp-page="./Delete" asp-route-courseId="@this.Model.Id">
-            <i class="fas fa-trash"></i>
-        </a>
+
+        @if (this.User.IsInRole("Administrator"))
+        {
+            <a class="btn btn-lg" asp-page="./Edit" asp-route-courseId="@this.Model.Id">
+                <i class="fas fa-edit"></i>
+            </a>
+            <a class="btn btn-lg" asp-page="./Delete" asp-route-courseId="@this.Model.Id">
+                <i class="fas fa-trash"></i>
+            </a>
+        }
     </div>
 </div>

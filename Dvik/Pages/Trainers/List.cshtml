@@ -27,4 +27,7 @@
     }
 </div>
 <br />
-<a asp-page="./Edit" class="btn btn-primary">Добавить тренера</a>
+@if (this.User.IsInRole("Administrator"))
+{
+    <a asp-page="./Edit" class="btn btn-primary">Добавить тренера</a>
+}
