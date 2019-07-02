@@ -18,12 +18,13 @@
         </div>
     </div>
 </form>
-<div class="card-columns">
+
     @foreach (var course in this.Model.Courses)
     {
         <partial name="_Card" model="course" />
+        <br />
     }
-</div>
+
 <br />
 @if (this.User.IsInRole("Administrator"))
 {
