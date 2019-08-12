@@ -2,19 +2,20 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Dvik.Core;
-using Dvik.Core.Abstractions;
 using Microsoft.AspNetCore.Http;
 using System.IO;
+using Dvik.Data;
+using Microsoft.EntityFrameworkCore;
 
 namespace Dvik.Pages.Trainers
 {
     public class EditModel : PageModel
     {
-        private readonly IData<Trainer> trainerData;
+        private readonly DvikDbContext dbContext;
 
-        public EditModel(IData<Trainer> trainerData)
+        public EditModel(DvikDbContext trainerData)
         {
-            this.trainerData = trainerData;
+            this.dbContext = trainerData;
         }
 
         [BindProperty]
@@ -26,7 +27,7 @@ namespace Dvik.Pages.Trainers
         public async Task<IActionResult> OnGetAsync(int? trainerId)
         {
             this.Trainer = trainerId.HasValue 
-                ? await this.trainerData.SearchByIdAsync(trainerId.Value) 
+                ? await this.dbContext.Trainers.FindAsync(trainerId.Value) 
                 : new Trainer();
 
             return null == this.Trainer
@@ -43,11 +44,17 @@ namespace Dvik.Pages.Trainers
 
             this.addPhoto();
 
-            this.Trainer = this.Trainer.Id > 0
-                ? this.trainerData.Update(this.Trainer)
-                : await this.trainerData.AddAsync(this.Trainer);
+            if (this.Trainer.Id > 0)
+            {
+                this.dbContext.Attach(this.Trainer).State = EntityState.Modified;
+                this.Trainer = this.dbContext.Update(this.Trainer).Entity;
+            }
+            else
+            {
+                this.Trainer = (await this.dbContext.AddAsync(this.Trainer)).Entity;
+            }
 
-            await this.trainerData.CommitAsync();
+            await this.dbContext.SaveChangesAsync();
             this.TempData["Message"] = "Тренер сохранен.";
             return this.RedirectToPage("./Details", new { trainerId = this.Trainer.Id });
         }

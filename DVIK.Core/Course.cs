@@ -1,9 +1,8 @@
-﻿using Dvik.Core.Abstractions;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 
 namespace Dvik.Core
 {
-    public class Course : IHaveName
+    public class Course
     {
         public int Id { get; set; }
 

@@ -2,22 +2,23 @@
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Dvik.Core;
-using Dvik.Core.Abstractions;
 using System.Linq;
 using Microsoft.AspNetCore.Mvc;
+using Dvik.Data;
+using Microsoft.EntityFrameworkCore;
 
 namespace Dvik.Pages.Trainers
 {
     public class ListModel : PageModel
     {
-        private readonly IData<Trainer> trainerData;
+        private readonly DvikDbContext dbContext;
 
-        public ListModel(IData<Trainer> trainerData)
+        public ListModel(DvikDbContext dbContext)
         {
-            this.trainerData = trainerData;
+            this.dbContext = dbContext;
         }
 
-        public List<Trainer> Trainers { get;set; }
+        public IEnumerable<Trainer> Trainers { get;set; }
 
         [BindProperty(SupportsGet = true)]
         public string SearchTerm { get; set; }
@@ -25,7 +26,8 @@ namespace Dvik.Pages.Trainers
 
         public async Task OnGetAsync()
         {
-            this.Trainers = (await this.trainerData.SearchByNameAsync(this.SearchTerm)).ToList();
+            this.Trainers = await this.dbContext.Trainers.Where(t => string.IsNullOrEmpty(this.SearchTerm)
+            || t.Name == this.SearchTerm).ToArrayAsync();
         }
     }
 }

@@ -2,17 +2,17 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Dvik.Core;
-using Dvik.Core.Abstractions;
+using Dvik.Data;
 
 namespace Dvik.Pages.Trainers
 {
     public class DeleteModel : PageModel
     {
-        private readonly IData<Trainer> trainerData;
+        private readonly DvikDbContext dbContext;
 
-        public DeleteModel(IData<Trainer> trainerData)
+        public DeleteModel(DvikDbContext trainerData)
         {
-            this.trainerData = trainerData;
+            this.dbContext = trainerData;
         }
 
         [BindProperty]
@@ -20,7 +20,7 @@ namespace Dvik.Pages.Trainers
 
         public async Task<IActionResult> OnGetAsync(int trainerId)
         {
-            this.Trainer = await this.trainerData.SearchByIdAsync(trainerId);
+            this.Trainer = await this.dbContext.Trainers.FindAsync(trainerId);
             return this.Trainer == null
                 ? this.RedirectToPage("./NotFound")
                 : (IActionResult)this.Page();
@@ -28,14 +28,17 @@ namespace Dvik.Pages.Trainers
 
         public async Task<IActionResult> OnPostAsync(int trainerId)
         {
-            var course = await this.trainerData.DeleteAsync(trainerId);
+            var trainer = await this.dbContext.Trainers.FindAsync(trainerId);
 
-            if (course == null)
+            if (trainer == null)
             {
                 return this.RedirectToPage("./List");
             }
-            await this.trainerData.CommitAsync();
-            this.TempData["Message"] = $"Тренер {course.Name} удалён";
+
+            this.dbContext.Remove(trainer);
+            await this.dbContext.SaveChangesAsync();
+
+            this.TempData["Message"] = $"Тренер {trainer.Name} удалён";
             return this.RedirectToPage("./List");
         }
     }

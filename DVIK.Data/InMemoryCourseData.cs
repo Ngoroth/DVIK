@@ -1,11 +1,10 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using Dvik.Core;
-using Dvik.Core.Abstractions;
 
 namespace Dvik.Data
 {
-    public class InMemoryCourseData : ICourseData
+    public class InMemoryCourseData
     {
         public List<Course> Courses { get; set; }
 

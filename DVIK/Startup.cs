@@ -1,6 +1,5 @@
 using Dvik.Areas.Identity;
 using Dvik.Core;
-using Dvik.Core.Abstractions;
 using Dvik.Data;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -26,8 +25,6 @@ namespace Dvik
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddDbContext<DvikDbContext>(options => options.UseSqlServer(this.Configuration.GetConnectionString("DvikDb")));
-            services.AddScoped<IData<Course>, SqlData<Course>>();
-            services.AddScoped<IData<Trainer>, SqlTrainerData>();
 
             services.Configure<CookiePolicyOptions>(options =>
             {

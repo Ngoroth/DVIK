@@ -1,4 +1,5 @@
-﻿using Dvik.Core;
+﻿using System;
+using Dvik.Core;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
