@@ -14,7 +14,7 @@
 
 
   <ItemGroup>
-    <ProjectReference Include="..\DVIK.Data\Dvik.Data.csproj" />
+    <ProjectReference Include="..\Dvik.Data\Dvik.Data.csproj" />
   </ItemGroup>
 
 

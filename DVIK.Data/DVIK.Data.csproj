@@ -10,7 +10,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\DVIK.Core\Dvik.Core.csproj" />
+    <ProjectReference Include="..\Dvik.Core\Dvik.Core.csproj" />
   </ItemGroup>
 
   <ItemGroup>

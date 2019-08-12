@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc.RazorPages;
 
-namespace DVIK.Pages
+namespace Dvik.Pages
 {
     public class IndexModel : PageModel
     {
