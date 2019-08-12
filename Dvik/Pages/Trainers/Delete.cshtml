@@ -1,0 +1,15 @@
+﻿@page "{trainerId:int}"
+@model Dvik.Pages.Trainers.DeleteModel
+
+@{
+    ViewData["Title"] = "Delete";
+}
+
+<h2>Удалить</h2>
+<div class="alert alert-danger">
+    Вы уверены что хотите удалить @this.Model.Trainer.Name ?
+</div>
+<form method="post">
+    <button type="submit" class="btn btn-danger">Да!</button>
+    <a asp-page="List" class="btn btn-secondary">Отмена</a>
+</form>
